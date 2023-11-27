@@ -1,7 +1,7 @@
-import { Product } from "../models/catalog.model";
+import { Product } from "../models/product.model";
 
 export interface ICatalog {
-
+ 
     create(data: Product): Promise<Product>;
 
     update(id: number, data: any): Promise<Product>;
