@@ -11,24 +11,29 @@ export class MockCatalogRepository implements ICatalog {
         })
     }
 
-    update(id: number, data: any): Promise<Product> {
-        throw new Error("Method not implemented.");
+    update(data: any): Promise<Product> {
+        return new Promise((resolve, reject) => {
+            resolve({
+                ...data
+            })
+         }
+        )
     }
 
     delete(id: number): Promise<{}> {
-        throw new Error("Method not implemented.");
+        return Promise.resolve(id)
     }
 
     findOne(data: any): Promise<Product> {
         throw new Error("Method not implemented.");
     }
 
-    find(): Promise<Product[]> {
-        throw new Error("Method not implemented.");
+    find(limit: number, offset: number): Promise<any> {
+        return Promise.resolve([]); 
     }
     
-    findById(id: number): Promise<Product[]> {
-        throw new Error("Method not implemented.");
+    findById(id: number): Promise<Product> {
+        return Promise.resolve({} as Product)
     }
 
 

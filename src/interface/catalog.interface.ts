@@ -4,13 +4,13 @@ export interface ICatalog {
  
     create(data: Product): Promise<Product>;
 
-    update(id: number, data: any): Promise<Product>;
+    update(data: any): Promise<Product>;
 
     delete(id: number): any;
 
     findOne(data: any): Promise<Product>;
 
-    find(): Promise<Product[]>;
+    find(limit: number, offset: number): Promise<any>;
 
-    findById(id: number): Promise<Product[]>;
+    findById(id: number): Promise<Product>;
 }
