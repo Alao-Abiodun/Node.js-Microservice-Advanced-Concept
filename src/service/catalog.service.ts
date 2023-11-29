@@ -16,11 +16,26 @@ export class CatalogService {
         return product;
     }
 
-    updateProduct(id: number, input: any) {}
+    async updateProduct(input: any) {
+        const product = await this._repository.update(input);
+        // emit the event to update record in elastic search service
+        return product;
+    }
 
-    deleteProduct(id: number) {}
+    async deleteProduct(id: number) {
+        const product = this._repository.delete(id);
+        return product;
+    }
 
-    getProduct(id: number) {}
+    async getProduct(id: number) {
+        const product = this._repository.findById(id);
+        // Also delete the product from elastic search service
+        return product;
+    }
 
-    getProducts(limit: number, offset: number) {}
+    // instead we get product from elastic search service
+    async getProducts(limit: number, offset: number) {
+        const products = await this._repository.find(limit, offset);
+        return products;
+    }
 }
