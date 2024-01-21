@@ -3,16 +3,27 @@ import { IsNotEmpty, IsNumber, IsString, Min } from "class-validator";
 export class CreateProductRequestDto {
     @IsString()
     @IsNotEmpty()
-    name: string;
+    "name": string;
 
     @IsString()
-    description: string;
+    "description": string;
 
     @IsNotEmpty()
     @Min(1)
-    stock: number;
+    "stock": number;
 
-    @IsNotEmpty()
     @IsNumber()
-    price: number;
+    "price": number;
+}
+
+export class UpdateProductRequest {
+
+    "name"?: string;
+
+    "description": string;
+
+    "stock"?: number;
+
+    @Min(1)
+    "price"?: number;
 }
