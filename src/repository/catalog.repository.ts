@@ -1,33 +1,65 @@
+import { PrismaClient } from "@prisma/client";
 import { ICatalog } from "../interface/catalog.interface";
 import { Product } from "../models/product.model";
-import { ProductFactory } from "../utils/fixtures";
 
 export class CatalogRepository implements ICatalog {
 
-    create(data: Product): Promise<Product> {
-        const product = ProductFactory.build();
-        return Promise.resolve(product)
+    _prisma: PrismaClient;
+
+    constructor() {
+        this._prisma = new PrismaClient();
     }
-    update(data: Product): Promise<Product> {
-        const product = ProductFactory.build();
-        return Promise.resolve(product)
-    }
-    delete(id: any): Promise<{}> {
-        const product = ProductFactory.build();
-        return Promise.resolve(product)
-    }
-    findOne(data: any): Promise<Product> {
-        const product = ProductFactory.build();
-        return Promise.resolve(product)
-    }
-    find(limit: number, offset: number): Promise<Product[]> {
-        const product = ProductFactory.buildList(limit);
-        return Promise.resolve(product)
-    }
-    findById(id: number): Promise<Product> {
-        const product = ProductFactory.build();
-        return Promise.resolve(product)
+
+    async create(data: Product): Promise<Product> {
+        return this._prisma.product.create({ data })
     }
 
 
+    async update(data: Product): Promise<Product> {
+        return this._prisma.product.update({
+            where: { id: data.id },
+            data
+        })
+    }
+
+
+    async delete(id: any): Promise<{}> {
+        return this._prisma.product.delete({
+            where: { id }
+        })
+    }
+
+
+    async findOne(data: any): Promise<Product> {
+        const product = await this._prisma.product.findFirst({
+            where:  data 
+        })
+
+        if (product) {
+            return Promise.resolve(product);
+        }
+
+        return Promise.reject(new Error('Product not found'));
+    }
+
+    async find(limit: number, offset: number): Promise<Product[]> {
+        return this._prisma.product.findMany({
+            take: limit,
+            skip: offset
+        })
+    }
+
+
+    async findById(id: number): Promise<Product> {
+        const product = await this._prisma.product.findUnique({
+            where: { id }
+        })
+
+        if (product) {
+            return Promise.resolve(product);
+        }
+
+        return Promise.reject(new Error('Product not found'));
+    }
+    
 }
